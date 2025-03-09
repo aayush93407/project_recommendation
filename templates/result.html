@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Results</title>
+
+    <style>
+        /* General Styling */
+        body {
+            background-color: #000;  /* Black background */
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            padding: 20px;
+        }
+
+        /* Container */
+        .container {
+            background-color: #222; /* Dark Gray */
+            padding: 30px;
+            border-radius: 10px;
+            width: 70%;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Headings */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #ffa500; /* Orange */
+            border-bottom: 2px solid #ffa500;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+
+        /* Personal Information Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #555;
+            text-align: left;
+        }
+
+        th {
+            color: #ffa500;
+            width: 30%;
+        }
+
+        a {
+            color: #ffa500;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Lists Styling */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #333;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Resume Analysis Results</h1>
+        
+        <div id="personal-info">
+            <h2>👤 Personal Information</h2>
+            <table>
+                <tr><th>Name:</th><td id="name"></td></tr>
+                <tr><th>Email:</th><td id="email"></td></tr>
+                <tr><th>Contact:</th><td id="contact"></td></tr>
+                <tr><th>LinkedIn:</th><td><a id="linkedin" href="#" target="_blank"></a></td></tr>
+                <tr><th>GitHub:</th><td><a id="github" href="#" target="_blank"></a></td></tr>
+            </table>
+        </div>
+
+        <div id="skills">
+            <h2>🛠 Skills</h2>
+            <ul id="skills-list"></ul>
+        </div>
+
+        <div id="projects">
+            <h2>🚀 Recommended Projects</h2>
+            <ul id="projects-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const data = JSON.parse(localStorage.getItem("resumeData"));
+
+            if (!data) {
+                document.body.innerHTML = "<h1>No Data Found</h1>";
+                return;
+            }
+
+            document.getElementById("name").textContent = data["Name"] || "N/A";
+            document.getElementById("email").textContent = data["Email ID"] || "N/A";
+            document.getElementById("contact").textContent = data["Contact Number"] || "N/A";
+
+            const linkedin = document.getElementById("linkedin");
+            linkedin.href = data["LinkedIn"] || "#";
+            linkedin.textContent = data["LinkedIn"] || "N/A";
+
+            const github = document.getElementById("github");
+            github.href = data["GitHub"] || "#";
+            github.textContent = data["GitHub"] || "N/A";
+
+            // Display Skills
+            const skillsList = document.getElementById("skills-list");
+            if (data["Skills"]) {
+                data["Skills"].split(",").forEach(skill => {
+                    let li = document.createElement("li");
+                    li.textContent = skill.trim();
+                    skillsList.appendChild(li);
+                });
+            } else {
+                skillsList.innerHTML = "<li>No skills found</li>";
+            }
+
+            // Display Projects
+            const projectsList = document.getElementById("projects-list");
+            if (data["Projects"]) {
+                data["Projects"].split("\n").forEach(project => {
+                    let li = document.createElement("li");
+                    li.textContent = project.trim();
+                    projectsList.appendChild(li);
+                });
+            } else {
+                projectsList.innerHTML = "<li>No project recommendations available</li>";
+            }
+        });
+    </script>
+</body>
+</html>
