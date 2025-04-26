@@ -9,8 +9,8 @@ from mistralai import Mistral
 app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Requests
 
-# 🔥 API Key (HARD-CODED)
-API_KEY_MISTRAL = "aKFEMuDwJOvtphHDDOrh2qbfRP7jEA1L"
+# 🔥 API Key (Read from environment variable)
+API_KEY_MISTRAL = os.environ.get("API_KEY_MISTRAL")
 
 # 🔥 Ensure 'uploads' directory exists
 UPLOAD_FOLDER = "uploads"
@@ -123,4 +123,5 @@ def result():
     return render_template("result.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
